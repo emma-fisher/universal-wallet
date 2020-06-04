@@ -3,13 +3,13 @@
 import * as firebase from 'firebase';
 
 const firebaseConfig = {
-    apiKey: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-    authDomain: "reactnativefirebase-00000.firebaseapp.com",
-    databaseURL: "https://reactnativefirebase-00000.firebaseio.com",
-    projectId: "reactnativefirebase-00000",
-    storageBucket: "reactnativefirebase-00000.appspot.com",
-    messagingSenderId: "000000000000000",
-    appId: "1:000000000000000:web:000000000000000"
+    apiKey: "AIzaSyBZ_cXg4cEzBlzEtu1TKSsPHYxxoXZT7U4",
+    authDomain: "universal-wallet-73b42.firebaseapp.com",
+    databaseURL: "https://universal-wallet-73b42.firebaseio.com",
+    projectId: "universal-wallet-73b42",
+    storageBucket: "universal-wallet-73b42.appspot.com",
+    messagingSenderId: "479443661280",
+    appId: "1:479443661280:ios:5806031db0084e650a3b85"
 };
 
 firebase.initializeApp(firebaseConfig);

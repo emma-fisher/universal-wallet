@@ -1,16 +1,16 @@
 // components/login.js
 
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TextInput, Button, Alert, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, Alert, ActivityIndicator, Image, TouchableOpacity, StatusBar } from 'react-native';
 import firebase from '../database/firebase';
 
 
 export default class Login extends Component {
-  
+
   constructor() {
     super();
-    this.state = { 
-      email: '', 
+    this.state = {
+      email: '',
       password: '',
       isLoading: false
     }
@@ -23,39 +23,45 @@ export default class Login extends Component {
   }
 
   userLogin = () => {
-    if(this.state.email === '' && this.state.password === '') {
+    if (this.state.email === '' && this.state.password === '') {
       Alert.alert('Enter details to signin!')
     } else {
       this.setState({
         isLoading: true,
       })
       firebase
-      .auth()
-      .signInWithEmailAndPassword(this.state.email, this.state.password)
-      .then((res) => {
-        console.log(res)
-        console.log('User logged-in successfully!')
-        this.setState({
-          isLoading: false,
-          email: '', 
-          password: ''
+        .auth()
+        .signInWithEmailAndPassword(this.state.email, this.state.password)
+        .then((res) => {
+          console.log(res)
+          console.log('User logged-in successfully!')
+          this.setState({
+            isLoading: false,
+            email: '',
+            password: ''
+          })
+          this.props.navigation.navigate('MainPage')
         })
-        this.props.navigation.navigate('Dashboard')
-      })
-      .catch(error => this.setState({ errorMessage: error.message }))
+        .catch(error => this.setState({ errorMessage: error.message }))
     }
   }
 
   render() {
-    if(this.state.isLoading){
-      return(
+    if (this.state.isLoading) {
+      return (
         <View style={styles.preloader}>
-          <ActivityIndicator size="large" color="#9E9E9E"/>
+          <ActivityIndicator size="large" color="black" />
         </View>
       )
-    }    
+    }
     return (
-      <View style={styles.container}>  
+      <View style={styles.container}>
+        <StatusBar hidden />
+        <Image
+          style={styles.logo}
+          source={require('../assets/logo.png')}
+        />
+        <Text style={styles.logoText}>Universal Wallet</Text>
         <TextInput
           style={styles.inputStyle}
           placeholder="Email"
@@ -69,18 +75,23 @@ export default class Login extends Component {
           onChangeText={(val) => this.updateInputVal(val, 'password')}
           maxLength={15}
           secureTextEntry={true}
-        />   
-        <Button
-          color="#3740FE"
-          title="Signin"
+        />
+        {/* <Button
+          style={styles.loginBtn}
+          title="Sign In"
           onPress={() => this.userLogin()}
-        />   
+        /> */}
+        <TouchableOpacity
+          style={styles.loginBtn}
+          onPress={() => this.userLogin()}>
+          <Text style={styles.loginText}>Sign In</Text>
+        </TouchableOpacity>
 
-        <Text 
-          style={styles.loginText}
+        <Text
+          style={styles.signupText}
           onPress={() => this.props.navigation.navigate('Signup')}>
           Don't have account? Click here to signup
-        </Text>                          
+        </Text>
       </View>
     );
   }
@@ -92,6 +103,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
+    alignItems: 'center',
     padding: 35,
     backgroundColor: '#fff'
   },
@@ -103,11 +115,6 @@ const styles = StyleSheet.create({
     borderColor: "#ccc",
     borderBottomWidth: 1
   },
-  loginText: {
-    color: '#3740FE',
-    marginTop: 25,
-    textAlign: 'center'
-  },
   preloader: {
     left: 0,
     right: 0,
@@ -117,5 +124,29 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#fff'
-  }
+  },
+  logo: {
+    height: 120,
+    width: 130
+  },
+  logoText: {
+    fontWeight: "bold",
+    fontSize: 25,
+    color: "black",
+    marginBottom: 60
+  },
+  loginBtn: {
+    width: "100%",
+    backgroundColor: "#2382a8",
+    borderRadius: 5,
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 20,
+    marginBottom: 25,
+  },
+  loginText: {
+    color: "white",
+    fontSize: 20
+  },
 });

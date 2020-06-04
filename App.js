@@ -6,7 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import Login from './components/login';
 import Signup from './components/signup';
-import Dashboard from './components/dashboard';
+import MainPage from './components/dashboard';
 
 const Stack = createStackNavigator();
 
@@ -24,26 +24,26 @@ function MyStack() {
           fontWeight: 'bold',
         },
       }}>
-      <Stack.Screen 
-        name="Signup" 
-        component={Signup} 
+      <Stack.Screen
+        name="Signup"
+        component={Signup}
         options={{ title: 'Signup' }}
-      />       
-      <Stack.Screen 
-        name="Login" 
-        component={Login} 
+      />
+      <Stack.Screen
+        name="Login"
+        component={Login}
         options={
-          {title: 'Login'},
-          {headerLeft: null} 
+          { title: 'Login' },
+          { headerLeft: null }
         }
       />
-      <Stack.Screen 
-       name="Dashboard" 
-       component={Dashboard} 
-       options={
-         { title: 'Dashboard' },
-         {headerLeft: null} 
-       }
+      <Stack.Screen
+        name="MainPage"
+        component={MainPage}
+        options={
+          { title: 'MainPage' },
+          { headerLeft: null }
+        }
       />
     </Stack.Navigator>
   );
