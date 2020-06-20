@@ -1,17 +1,17 @@
 // components/signup.js
 
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TextInput, Button, Alert, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, Alert, ActivityIndicator, TouchableOpacity, Image } from 'react-native';
 import firebase from '../database/firebase';
 
 
 export default class Signup extends Component {
-  
+
   constructor() {
     super();
-    this.state = { 
+    this.state = {
       displayName: '',
-      email: '', 
+      email: '',
       password: '',
       isLoading: false
     }
@@ -24,48 +24,53 @@ export default class Signup extends Component {
   }
 
   registerUser = () => {
-    if(this.state.email === '' && this.state.password === '') {
+    if (this.state.email === '' && this.state.password === '') {
       Alert.alert('Enter details to signup!')
     } else {
       this.setState({
         isLoading: true,
       })
       firebase
-      .auth()
-      .createUserWithEmailAndPassword(this.state.email, this.state.password)
-      .then((res) => {
-        res.user.updateProfile({
-          displayName: this.state.displayName
+        .auth()
+        .createUserWithEmailAndPassword(this.state.email, this.state.password)
+        .then((res) => {
+          res.user.updateProfile({
+            displayName: this.state.displayName
+          })
+          console.log('User registered successfully!')
+          this.setState({
+            isLoading: false,
+            displayName: '',
+            email: '',
+            password: ''
+          })
+          this.props.navigation.navigate('Login')
         })
-        console.log('User registered successfully!')
-        this.setState({
-          isLoading: false,
-          displayName: '',
-          email: '', 
-          password: ''
-        })
-        this.props.navigation.navigate('Login')
-      })
-      .catch(error => this.setState({ errorMessage: error.message }))      
+        .catch(error => this.setState({ errorMessage: error.message }))
     }
   }
 
   render() {
-    if(this.state.isLoading){
-      return(
+    if (this.state.isLoading) {
+      return (
         <View style={styles.preloader}>
-          <ActivityIndicator size="large" color="#9E9E9E"/>
+          <ActivityIndicator size="large" color="#9E9E9E" />
         </View>
       )
-    }    
+    }
     return (
-      <View style={styles.container}>  
+      <View style={styles.container}>
+        <Image
+          style={styles.logo}
+          source={require('../assets/logo.png')}
+        />
+        <Text style={styles.logoText}>Create an Account</Text>
         <TextInput
           style={styles.inputStyle}
           placeholder="Name"
           value={this.state.displayName}
           onChangeText={(val) => this.updateInputVal(val, 'displayName')}
-        />      
+        />
         <TextInput
           style={styles.inputStyle}
           placeholder="Email"
@@ -79,18 +84,23 @@ export default class Signup extends Component {
           onChangeText={(val) => this.updateInputVal(val, 'password')}
           maxLength={15}
           secureTextEntry={true}
-        />   
-        <Button
+        />
+        {/* <Button
           color="#3740FE"
           title="Signup"
           onPress={() => this.registerUser()}
-        />
+        /> */}
+        <TouchableOpacity
+          style={styles.signupBtn}
+          onPress={() => this.registerUser()}>
+          <Text style={styles.signupText}>Sign Up</Text>
+        </TouchableOpacity>
 
-        <Text 
+        <Text
           style={styles.loginText}
           onPress={() => this.props.navigation.navigate('Login')}>
           Already Registered? Click here to login
-        </Text>                          
+        </Text>
       </View>
     );
   }
@@ -102,6 +112,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
+    alignItems: "center",
     padding: 35,
     backgroundColor: '#fff'
   },
@@ -114,7 +125,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1
   },
   loginText: {
-    color: '#3740FE',
+    color: '#2382a8',
     marginTop: 25,
     textAlign: 'center'
   },
@@ -127,5 +138,29 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#fff'
+  },
+  signupBtn: {
+    width: "100%",
+    backgroundColor: "#2382a8",
+    borderRadius: 5,
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 20,
+    marginBottom: 25,
+  },
+  signupText: {
+    color: "white",
+    fontSize: 20
+  },
+  logo: {
+    height: 130,
+    width: 140
+  },
+  logoText: {
+    fontWeight: "bold",
+    fontSize: 25,
+    color: "black",
+    marginBottom: 50
   }
 });

@@ -126,14 +126,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff'
   },
   logo: {
-    height: 120,
-    width: 130
+    height: 130,
+    width: 140
   },
   logoText: {
     fontWeight: "bold",
     fontSize: 25,
     color: "black",
-    marginBottom: 60
+    marginBottom: 50
   },
   loginBtn: {
     width: "100%",
@@ -149,4 +149,7 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 20
   },
+  signupText: {
+    color: "#2382a8"
+  }
 });
